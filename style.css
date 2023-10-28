@@ -1,0 +1,44 @@
+.card img{
+    width: 220px;
+    height:280px;  
+}
+.card{
+   
+    border:0;
+    text-align: center;
+    margin: 30px auto;
+
+}
+.container{
+    margin-bottom: 30px;
+}
+.books{
+    text-align: center;
+    margin-bottom: -48px;
+}
+
+.pagination{
+    margin-left: auto;
+    margin-right: auto;
+    width: 4em;
+
+    
+}
+.last{
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.pagination li{
+    margin: 10px;
+}
+
+.centerblock{
+    text-align: center; 
+    margin-bottom: 30px;
+}
+.authors{
+    text-align: center;
+  
+}
