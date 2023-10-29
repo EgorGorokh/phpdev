@@ -1,14 +1,5 @@
 <?php
-
-
-
-
-
-
-
-
-
-
+phpinfo();
 
 require_once 'DataBase.php';
 $dataBase=new DataBase();
@@ -32,18 +23,72 @@ $result = $conn->query($sql);
 
 
 
+?>
 
+<script>
+        $(document).ready(function() {
+            $('.btnShowForm').click(function() {
+                var cardId = $(this).data('card-id');
+                const cx= cardId;
+                $('#contactForm_' + cardId).show();
+
+            $('.contactForm').submit(function(e) {
+                e.preventDefault();
+
+
+
+                var cardId = cx;
+                var name = $('#name_' + cardId).val();
+                var email = $('#email_' + cardId).val();
+                var surname = $('#surname_' + cardId).val();
+                var namebook = $('#namebook_' + cardId).val();///
+                var nameauthor = $('#nameauthor_' + cardId).val();////
+
+
+
+
+                $.ajax({
+                    url: 'sendEmail.php',
+                    type: 'POST',
+                    data: {name: name, email: email, surname: surname,namebook: namebook,nameauthor: nameauthor},
+                  //data: {name: name, email: email, message: message},
+                    success: function(response) {
+                        $('#contactForm_' + cardId).hide();
+                        $('#successMessage_' + cardId).show();
+                        
+                    }
+                });    });
+            });
+        });
+    </script>
+    <style>
+        .contactForm {
+            display: none;
+        }
+
+        .successMessage {
+            display: none;
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+
+<?php
 
 
 
 if ($result->num_rows > 0) {
-   
+
     echo "<div class='books'>";
     echo "<div style='margin-top:30px'><a href='authors.php'  style='color:black;'>Aвторы</a></div>";
 
 
+   
 
+
+    $t=1;
     while ($row = $result->fetch_assoc()) {
+       
         echo "<div class='card'>";
         echo "<div class='namebook'>".$row["name"]."</div>";
         ?>
@@ -55,14 +100,47 @@ if ($result->num_rows > 0) {
 <?php
 
         echo "<div class='nameauthor'>" . $row["author"] . "</div>";
-        echo "<div><button data-card-id='1' id='btnShowForm' class='btn btn-primary' style='width:250px'>Оформить заявку на книгу</button></div>";
-        echo "</div>";
-       ?>
+        ?>
 
 
+       
 
 
+        <div><button name='<?php echo $t ?>' data-card-id='<?php echo $t ?>' id="btnShowForm" class="btnShowForm" style="width:250px">Оформить заявку на книгу</button></div>
 <?php
+        echo "</div>";
+        ?>
+        
+        <div id="contactForm_<?php echo $t;
+        ?>" class="contactForm">
+            <h3>Форма для отправки данных:</h3>
+            <form method="post">
+                
+            <input type="hidden" id='namebook_<?php echo $t?>' value='<?php echo $row['name']?>' required>
+            <input type="hidden" id='nameauthor_<?php echo $t?>' value='<?php echo $row['author']?>' required>
+
+                <label for="name">Имя:</label>
+                <input type="text" name="name" id='name_<?php echo $t?>' required><br>
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email_<?php echo $t?>" required><br>
+
+                <label for="surname">Фамилия:</label>
+                <input name="surname" id="surname_<?php echo $t?>" required></input><br>
+
+                <input type="submit" value="Отправить">
+            </form>
+        </div>
+
+        <div id="successMessage_<?php echo $t; $t++;?>" class="successMessage">
+            <p>Данные успешно отправлены!</p>
+        </div>
+     
+        
+        
+        
+        <?php
+
     }
     echo "</div>";
 }

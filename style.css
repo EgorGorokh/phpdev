@@ -14,13 +14,14 @@
 }
 .books{
     text-align: center;
-    margin-bottom: -48px;
+    margin-bottom: -8px;
 }
 
 .pagination{
     margin-left: auto;
     margin-right: auto;
     width: 4em;
+  padding-top: 50px;
 
     
 }
